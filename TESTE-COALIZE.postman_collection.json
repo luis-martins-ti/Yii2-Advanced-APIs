@@ -1,0 +1,285 @@
+{
+	"info": {
+		"_postman_id": "0cc42098-f695-43c3-b084-e7781ebadabe",
+		"name": "TESTE-COALIZE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9521267",
+		"_collection_link": "https://colabi-dev.postman.co/workspace/LabiExames~694936f7-8401-45b4-8ecd-1d505f260474/collection/9521267-0cc42098-f695-43c3-b084-e7781ebadabe?action=share&source=collection_link&creator=9521267"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Has access token\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property('token');\r",
+							"    pm.expect(jsonData.token).not.eq(undefined); \r",
+							"    // salva token para uso em outras requisições\r",
+							"    pm.globals.set(\"JWToken\", jsonData.token);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"teste@email.com\",\r\n    \"password\": \"Teste123\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/backend/web/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"backend",
+						"web",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LIST Clients",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/backend/web/client?page=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"backend",
+						"web",
+						"client"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE Client",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Client[nome]",
+							"value": "Nome do Cliente 3",
+							"type": "text"
+						},
+						{
+							"key": "Client[cpf]",
+							"value": "843.954.140-60",
+							"type": "text"
+						},
+						{
+							"key": "Client[cep]",
+							"value": "12345-678",
+							"type": "text"
+						},
+						{
+							"key": "Client[logradouro]",
+							"value": "Rua Exemplo 3",
+							"type": "text"
+						},
+						{
+							"key": "Client[numero]",
+							"value": "123",
+							"type": "text"
+						},
+						{
+							"key": "Client[cidade]",
+							"value": "Cidade Exemplo 3",
+							"type": "text"
+						},
+						{
+							"key": "Client[estado]",
+							"value": "Estado Exemplo 3",
+							"type": "text"
+						},
+						{
+							"key": "Client[complemento]",
+							"value": "Bloco A",
+							"type": "text"
+						},
+						{
+							"key": "Client[foto]",
+							"type": "file",
+							"src": "/C:/Users/ecoim/OneDrive/Imagens/teste.png"
+						},
+						{
+							"key": "Client[sexo]",
+							"value": "não binário",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/backend/web/client/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"backend",
+						"web",
+						"client",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LIST Products",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/backend/web/product?page=1&cliente_id=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"backend",
+						"web",
+						"product"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "cliente_id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE Product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Product[nome]",
+							"value": "Nome do Produto 2",
+							"type": "text"
+						},
+						{
+							"key": "Product[preco]",
+							"value": "29.99",
+							"type": "text"
+						},
+						{
+							"key": "Product[cliente_id]",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "Product[foto]",
+							"type": "file",
+							"src": "/C:/Users/ecoim/OneDrive/Imagens/teste.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000//backend/web/product/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"",
+						"backend",
+						"web",
+						"product",
+						"create"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
