@@ -1,0 +1,1 @@
+Pasta de Volume de persistencia de dados do MySQL.<br/>Para remover os dados persistidos, basta apagar todos arquivos nessa pasta.
